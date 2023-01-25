@@ -57,6 +57,7 @@ The following image shows the web application's appearance and functionality:
 
 ### Built with
 
+- OpenWeather API
 - jQuery
 - Luxon
 - JavaScript
