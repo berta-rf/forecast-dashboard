@@ -1,9 +1,10 @@
 $( document ).ready(function() {
     
-     // Searched cities are added to the search history (localStorage) and persist between refreshes of a page.
-     let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    // Searched cities are added to the search history (localStorage) and persist between refreshes of a page.
+    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-     
+    renderCityBtns();
+
     //Display the current date
     const DateTime = luxon.DateTime;
     const today = DateTime.now().setZone("system");
@@ -18,12 +19,12 @@ $( document ).ready(function() {
         
         e.preventDefault();
 
-        // addCityBtn();
-
         let cityInput = $('#search-input').val();
 
         searchHistory.push(cityInput)
         localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+
+        renderCityBtns();
 
         // Clear input text
         $('#search-input').val('');
@@ -147,42 +148,37 @@ $( document ).ready(function() {
 
         displayWeather();
 
-
-
-        // When a user clicks on a city in the search history, current and future conditions for that city are shown again
-        
-
-
-        
-        
-        // event delegation because movie buttons are not created yet so we target the parent's buttons
-        // $("#history").on("click", "button" , displayWeather)
-        
     });
-    
-    // renderCityButtons();
-});
-
-    // // function for creating a button for each city searched
-    // function addCityBtn() {
-
-    //     let cityName = $(RESPONSE.NAME)
-    
-    //     const cityBtn = $(`<button><li>${cityName}}</li></button>`);
-    //     cityBtn.attr("data-date", LUXON);
-    //     $('#history').append(cityBtn);
-    // }
-
-
 
     // // Function for displaying buttons for each city in search history
-    // function renderCityButtons() {
+    function renderCityBtns() {
 
-    //     // loop through array
-    //     // create a button for each + cityName + data-date attribute
-    //     for (let city of searchHistory) {
-    
+        // Clear history buttons
+        $('#history').html("");
+
+        // loop through array
+        // create a button for each cityName
+        for (let city of searchHistory) {
             
-    
-    //     }
-    // }
+            // capitalizes first letter of city
+            let cityName = city.charAt(0).toUpperCase() + city.slice(1);
+            
+            const cityBtn = $(`<button>${cityName}</button>`);
+            $('#history').append(cityBtn);
+
+        }    
+    }
+
+    // When a user clicks on a city in the search history, current and future conditions for that city are shown again
+    // $("#history").on("click", "button" , displayWeather)
+
+
+
+
+
+
+
+
+
+});
+
