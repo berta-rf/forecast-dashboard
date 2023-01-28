@@ -170,13 +170,20 @@ $( document ).ready(function() {
     }
 
     // When a user clicks on a city in the search history, current and future conditions for that city are shown again
-    // $("#history").on("click", "button" , displayWeather)
+    $("#history").on("click", "button" , function(e) {
+            
+            e.preventDefault;
+            displayWeather();
+
+    });
 
 
+    $('#clearBtn').on('click', function(e) {
 
-
-
-
+        e.preventDefault();
+        localStorage.clear();
+        location.reload();
+    });
 
 
 
