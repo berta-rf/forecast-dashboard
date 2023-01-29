@@ -57,6 +57,8 @@ $( document ).ready(function() {
         fetch(currentWeatherURL)
         .then((response) => response.json())
         .then((data) => {
+
+            console.log(data)
             
             // Converts wind speed in m/s to km/h  
             let wind = parseInt(data.wind.speed)*3.6;
@@ -66,15 +68,24 @@ $( document ).ready(function() {
             let temp = Math.round(data.main.temp);
             let feelTemp = Math.round(data.main.feels_like);
             
+            let imageSrc = `./assets/images/${data.weather[0].main}.jpg`;
+
             // Current weather by city shows city name, date, weather, temperature, humidity and wind speed (html template)
             const currentWeather = $(`
-                <h2 class="fw-bold">${data.name} ${currentDate}</h2>
-                <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
-                <p>Temp: ${temp} ℃</p>
-                <p>Feels like: ${feelTemp} ℃</p>
-                <p>Wind: ${wind} KM/H</p>
-                <p>Humidity: ${data.main.humidity}%</p>
-                </div>
+
+            <div class="current card bg-dark text-white">
+                <img src="${imageSrc}" class="card-img" alt="">
+                <div class="card-img-overlay">
+                    <div class="card-body">
+                        <h2 class="card-title fw-bold">${data.name} ${currentDate}</h2>
+                        <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
+                        <p class="card-text">Temp: ${temp} ℃</p>
+                        <p class="card-text">Feels like: ${feelTemp} ℃</p>
+                        <p class="card-text">Wind: ${wind} KM/H</p>
+                        <p class="card-text">Humidity: ${data.main.humidity}%</p>
+                    </div>
+                </div>    
+            </div>
             `);
                 
             $('#today').html(currentWeather);
@@ -173,7 +184,7 @@ $( document ).ready(function() {
         // create a button for each cityName
         for (let city of searchHistory) {
             
-            const cityBtn = $(`<button>${city}</button>`);
+            const cityBtn = $(`<button class="btn btn-secondary m-1">${city}</button>`);
             $('#history').append(cityBtn);
             
         }    
