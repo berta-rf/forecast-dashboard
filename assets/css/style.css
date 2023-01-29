@@ -9,8 +9,12 @@ h1 {
 }
 
 h2 {
-    font-size: 2.5rem !important;
+    font-size: 3rem !important;
     font-weight: bolder;
+}
+
+h3 {
+    font-size: 2rem !important;
 }
 
 .btn {
@@ -45,6 +49,10 @@ h2 {
 
 #history .btn {
     min-width: fit-content;
+}
+
+.card-body img {
+    filter: drop-shadow(1px 1px 0 rgb(67, 67, 67)) drop-shadow(-1px -1px 0 rgb(56, 55, 55));
 }
 
 .fivedaycard {

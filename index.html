@@ -15,7 +15,6 @@
 
   <header class="container py-5 weather-header">
     <h1>Weather Dashboard</h1>
-
     <div class="btn-group d-flex" id="history">
       <!-- searched cities go here -->
     </div>
@@ -24,16 +23,13 @@
   <!-- max-width for ultra wide resolutions -->
   <main class="container">
     <section class="row">
-      <h2 id="form-heading" class="form-label my-2">City Search:</h2>
       <!-- this is the city Search input form -->
       <form id="search-form" class="form">
         <div class="form-inline form-group">
             <div class="input-group">
-                <input type="text" class="form-control weather-search" id="search-input"  placeholder="London" aria-label="submit search" aria-describedby="button-addon2">
+                <input type="text" class="form-control weather-search" id="search-input"  placeholder="Enter your city here" aria-label="submit search" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary search-button" id="search-button" type="submit" id="button-addon2">Search</button>
-            </div>
-            <div class="input-group-append">
-              <button type="submit" class="btn my-3 btn-outline-warning" id="clearBtn" aria-label="clear history">Clear History</button>
+                <button class="btn btn-outline-warning" type="submit" id="clearBtn" aria-label="clear history">Clear History</button>
             </div>
         </div>
       </form>

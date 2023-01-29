@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     
     // Searched cities are added to the search history (localStorage) and persist between refreshes of a page.
-    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || ["London"];
     
     renderCityBtns();
     
@@ -24,6 +24,8 @@ $( document ).ready(function() {
         e.preventDefault();
         
         let cityInput = $('#search-input').val();
+        // capitalizes first letter of city
+        cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
 
         if (cityInput.trim() !== "") {
             displayWeather(cityInput);
@@ -33,8 +35,7 @@ $( document ).ready(function() {
 
     
     function displayWeather(cityInput){
-        
-        
+
         if (searchHistory.length > 7) {
             alert("You reached your saved cities limit")
         }
@@ -42,9 +43,7 @@ $( document ).ready(function() {
         // If a city is already in localStorage, it doesn't save twice
         if (searchHistory.indexOf(cityInput) === -1 && searchHistory.length < 8) {
 
-            // capitalizes first letter of city
-            let cityName = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
-            searchHistory.push(cityName);
+            searchHistory.push(cityInput);
             localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
         }
         
@@ -76,11 +75,11 @@ $( document ).ready(function() {
             // Current weather by city shows city name, date, weather, temperature, humidity and wind speed (html template)
             const currentWeather = $(`
 
-            <div class="current card bg-dark text-white mx-2">
+            <div class="current card bg-dark text-white">
                 <div class="card" style="background-image: url(${imageSrc}); background-repeat: no-repeat;background-size: cover;">
                     <div class="card-body p-5">
                         <h2 class="card-title fw-bold">${data.name} ${currentDate}</h2>
-                        <h3><i>${data.weather[0].main}</i></h3>
+                        <h3><i>${data.weather[0].description}</i></h3>
                         <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
                         <p class="card-text">Temp: ${temp} ℃</p>
                         <p class="card-text">Feels like: ${feelTemp} ℃</p>
@@ -183,7 +182,7 @@ $( document ).ready(function() {
         $('#history').html("");
         
         // loop through array
-        // create a button for each cityName
+        // create a button for each cityinput
         for (let city of searchHistory) {
             
             const cityBtn = $(`<button class="btn mx-1 mt-5 btn-warning">${city}</button>`);

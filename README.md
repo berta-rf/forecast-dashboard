@@ -17,23 +17,24 @@
 
 ## About the project
 
-Uses the OpenWeather API to retrieve weather data and uses `localStorage` to store persistent data.
+This app is a Weather Dashboard with search by city input, that uses the OpenWeather API to retrieve current weather and 5-day forecast data, and uses `localStorage` to store persistent data.
 
-* Create a weather dashboard with form inputs.
-  * When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history
+Functionality:
+
+  * When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history bar
   * When a user views the current weather conditions for that city they are presented with:
-    * The city name
-    * The date
-    * An icon representation of weather conditions
-    * The temperature
+    * The city name and the date
+    * An icon representation and background image of weather conditions
+    * The temperature and Feels like
     * The humidity
     * The wind speed
-  * When a user view future weather conditions for that city they are presented with a 5-day forecast that displays:
+  * When a user views future weather conditions for that city they are presented with a 5-day forecast that displays:
     * The date
     * An icon representation of weather conditions
-    * The temperature
+    * The min and max temperatures
+    * The wind speed
     * The humidity
-  * When a user click on a city in the search history they are again presented with current and future conditions for that city
+  * When a user clicks on a city in the search history bar they are again presented with current and future conditions for that city
 
 ### User Story
 
@@ -46,7 +47,7 @@ SO THAT I can plan a trip accordingly.
 ### Screenshot
 
 The following image shows the web application's appearance and functionality:
-![The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for London.](./)
+![The weather app shows a search option, a list of cities, and a five-day forecast and current weather conditions for London.](./assets/images/screencapture-forecast-dashboard.png)
 
 ### Links
 
@@ -69,7 +70,8 @@ The following image shows the web application's appearance and functionality:
 
 - [Luxon API docs](https://moment.github.io/luxon/api-docs/index.html#datetimenow)
 - [Article on localStorage](https://blog.logrocket.com/localstorage-javascript-complete-guide/#howdoeslocalstoragework)
-- [jQuery documentation on .data()](https://api.jquery.com/data/)
+- [OpenWeather API docs](https://openweathermap.org/api/one-call-3)
+- [Unsplash (weather conditions images)](https://unsplash.com/)
 
 ## Author
 
