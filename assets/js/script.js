@@ -34,15 +34,20 @@ $( document ).ready(function() {
     
     function displayWeather(cityInput){
         
+        
+        if (searchHistory.length > 7) {
+            alert("You reached your saved cities limit")
+        }
+
         // If a city is already in localStorage, it doesn't save twice
-        if (searchHistory.indexOf(cityInput) === -1) {
+        if (searchHistory.indexOf(cityInput) === -1 && searchHistory.length < 8) {
 
             // capitalizes first letter of city
             let cityName = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
             searchHistory.push(cityName);
             localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
         }
-
+        
         renderCityBtns();
         
         // Clear input text
@@ -57,8 +62,6 @@ $( document ).ready(function() {
         fetch(currentWeatherURL)
         .then((response) => response.json())
         .then((data) => {
-
-            console.log(data)
             
             // Converts wind speed in m/s to km/h  
             let wind = parseInt(data.wind.speed)*3.6;
@@ -73,11 +76,11 @@ $( document ).ready(function() {
             // Current weather by city shows city name, date, weather, temperature, humidity and wind speed (html template)
             const currentWeather = $(`
 
-            <div class="current card bg-dark text-white">
-                <img src="${imageSrc}" class="card-img" alt="">
-                <div class="card-img-overlay">
-                    <div class="card-body">
+            <div class="current card bg-dark text-white mx-2">
+                <div class="card" style="background-image: url(${imageSrc}); background-repeat: no-repeat;background-size: cover;">
+                    <div class="card-body p-5">
                         <h2 class="card-title fw-bold">${data.name} ${currentDate}</h2>
+                        <h3><i>${data.weather[0].main}</i></h3>
                         <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
                         <p class="card-text">Temp: ${temp} ℃</p>
                         <p class="card-text">Feels like: ${feelTemp} ℃</p>
@@ -133,7 +136,6 @@ $( document ).ready(function() {
                     
                 }
                 
-                //console.log(fiveDayForecast);
                 
                 for (let day in fiveDayForecast) {
                     
@@ -153,9 +155,9 @@ $( document ).ready(function() {
                     // Card component template for the 5 cards for 5-day-forecast
                     const forecastCard = $(
                         `
-                        <div class="card m-2">
+                        <div class="card fivedaycard col mx-2">
                         <h4 class="card-header">${luxonDate}</h4>
-                        <div class="card-body">
+                        <div class="card-body p-3">
                         <img style="width:70px" alt='${forecastDay.description}' src="${iconSrc}"/>
                         <p>Min Temp: ${Math.round(forecastDay.temp_min)} ℃</p>
                         <p>Max Temp: ${Math.round(forecastDay.temp_max)} ℃</p>
@@ -184,7 +186,7 @@ $( document ).ready(function() {
         // create a button for each cityName
         for (let city of searchHistory) {
             
-            const cityBtn = $(`<button class="btn btn-secondary m-1">${city}</button>`);
+            const cityBtn = $(`<button class="btn mx-1 mt-5 btn-warning">${city}</button>`);
             $('#history').append(cityBtn);
             
         }    
