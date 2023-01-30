@@ -21,7 +21,8 @@ This app is a Weather Dashboard with search by city input, that uses the OpenWea
 
 Functionality:
 
-  * When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history bar
+  * When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history bar.
+  * If the city is not found, show an alert message to the user.
   * When a user views the current weather conditions for that city they are presented with:
     * The city name and the date
     * An icon representation and background image of weather conditions
@@ -68,6 +69,8 @@ The following image shows the web application's appearance and functionality:
 
 ### Useful resources
 
+- [How to Handle Unsuccessful Fetch API Calls in JavaScript](https://javascript.plainenglish.io/handling-unsuccessful-calls-of-fetch-api-7eef551b74c8)
+- [MDN docs on statements throw & catch](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw)
 - [Luxon API docs](https://moment.github.io/luxon/api-docs/index.html#datetimenow)
 - [Article on localStorage](https://blog.logrocket.com/localstorage-javascript-complete-guide/#howdoeslocalstoragework)
 - [OpenWeather API docs](https://openweathermap.org/api/one-call-3)

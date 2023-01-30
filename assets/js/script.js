@@ -26,42 +26,50 @@ $( document ).ready(function() {
         let cityInput = $('#search-input').val();
         // capitalizes first letter of city
         cityInput = cityInput.charAt(0).toUpperCase() + cityInput.slice(1);
-
+        
         if (cityInput.trim() !== "") {
             displayWeather(cityInput);
         }
-      
+        
     });
-
+    
     
     function displayWeather(cityInput){
-
-        if (searchHistory.length > 7) {
-            alert("You reached your saved cities limit")
-        }
-
-        // If a city is already in localStorage, it doesn't save twice
-        if (searchHistory.indexOf(cityInput) === -1 && searchHistory.length < 8) {
-
-            searchHistory.push(cityInput);
-            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-        }
-        
-        renderCityBtns();
-        
-        // Clear input text
-        $('#search-input').val('');
-        // Clear previous forecast cards
-        $('.forecast-cards').html('');
         
         let currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${key}&units=metric`;
         
-        
         // request current weather data
         fetch(currentWeatherURL)
-        .then((response) => response.json())
+        .then((response) => {
+            if(response.ok) {
+                return response.json()
+            } else if (response.status === 404) {
+                throw new Error("Status code error :" + response.status) 
+            }
+        })
+        .catch(error => alert("City not found, please enter another city"))
         .then((data) => {
+            if (!data) {
+                return;
+            }
+
+            if (searchHistory.length > 7) {
+                alert("You reached your saved cities limit")
+            }
             
+            // If a city is already in localStorage, it doesn't save twice
+            if (searchHistory.indexOf(cityInput) === -1 && searchHistory.length < 8) {
+                
+                searchHistory.push(cityInput);
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            }
+            
+            renderCityBtns();
+            
+            // Clear input text
+            $('#search-input').val('');
+            // Clear previous forecast cards
+            $('.forecast-cards').html('');
             // Converts wind speed in m/s to km/h  
             let wind = parseInt(data.wind.speed)*3.6;
             
@@ -71,27 +79,27 @@ $( document ).ready(function() {
             let feelTemp = Math.round(data.main.feels_like);
             
             let imageSrc = `./assets/images/${data.weather[0].main}.jpg`;
-
+            
             // Current weather by city shows city name, date, weather, temperature, humidity and wind speed (html template)
             const currentWeather = $(`
-
+            
             <div class="current card bg-dark text-white">
-                <div class="card" style="background-image: url(${imageSrc}); background-repeat: no-repeat;background-size: cover;">
-                    <div class="card-body p-5">
-                        <h2 class="card-title fw-bold">${data.name} ${currentDate}</h2>
-                        <h3><i>${data.weather[0].description}</i></h3>
-                        <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
-                        <p class="card-text">Temp: ${temp} ℃</p>
-                        <p class="card-text">Feels like: ${feelTemp} ℃</p>
-                        <p class="card-text">Wind: ${wind} KM/H</p>
-                        <p class="card-text">Humidity: ${data.main.humidity}%</p>
-                    </div>
-                </div>    
+            <div class="card" style="background-image: url(${imageSrc}); background-repeat: no-repeat;background-size: cover;">
+            <div class="card-body p-5">
+            <h2 class="card-title fw-bold">${data.name} ${currentDate}</h2>
+            <h3><i>${data.weather[0].description}</i></h3>
+            <img style="width:70px" alt='weather icon' src="${iconSrc}"/>
+            <p class="card-text">Temp: ${temp} ℃</p>
+            <p class="card-text">Feels like: ${feelTemp} ℃</p>
+            <p class="card-text">Wind: ${wind} KM/H</p>
+            <p class="card-text">Humidity: ${data.main.humidity}%</p>
+            </div>
+            </div>    
             </div>
             `);
-                
+            
             $('#today').html(currentWeather);
-                
+            
             // 5-day-forecast URL with latitud and longitude from currentWeather ajax call (metric system and limit of 5 timestamps)
             let forecastQueryURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&units=metric&appid=${key}`;
             
@@ -170,44 +178,44 @@ $( document ).ready(function() {
                         
                     }     
                 }); 
-                    
-        })
                 
-    }
-    
-    // // Function for displaying buttons for each city in search history
-    function renderCityBtns() {
-        
-        // Clear history buttons
-        $('#history').html("");
-        
-        // loop through array
-        // create a button for each cityinput
-        for (let city of searchHistory) {
+            })
             
-            const cityBtn = $(`<button class="btn mx-1 mt-5 btn-warning">${city}</button>`);
-            $('#history').append(cityBtn);
+        }
+        
+        // // Function for displaying buttons for each city in search history
+        function renderCityBtns() {
             
-        }    
-    }
-    
-    // When a user clicks on a city in the search history, current and future conditions for that city are shown again
-    $("#history").on("click", "button" , function(e) {
-        e.preventDefault;
-        displayWeather($(e.target).text());
-                        
+            // Clear history buttons
+            $('#history').html("");
+            
+            // loop through array
+            // create a button for each cityinput
+            for (let city of searchHistory) {
+                
+                const cityBtn = $(`<button class="btn mx-1 mt-5 btn-warning">${city}</button>`);
+                $('#history').append(cityBtn);
+                
+            }    
+        }
+        
+        // When a user clicks on a city in the search history, current and future conditions for that city are shown again
+        $("#history").on("click", "button" , function(e) {
+            e.preventDefault;
+            displayWeather($(e.target).text());
+            
+        });
+        
+        // clear history from localStorage
+        $('#clearBtn').on('click', function(e) {
+            
+            e.preventDefault();
+            localStorage.clear();
+            location.reload();
+        });
+        
+        
+        
     });
     
-    // clear history from localStorage
-    $('#clearBtn').on('click', function(e) {
-        
-        e.preventDefault();
-        localStorage.clear();
-        location.reload();
-    });
-            
-            
-            
-});
-        
-        
+    
